@@ -16,7 +16,8 @@ Provides remote control of the ventilation tube throttle using a 433MHz RC and/o
   _For example: `PW1VA01`_
 * 433MHz RF receiver<br/>
   _For example: `XD-RF-5V`_
-* `TM1637` 4-digit LED display
+* `TM1637` 4-digit LED display<br/>
+  _TIP: To prevent negative impact on the operation of the 433 MHz RF module, it is better to power this `TM1637` module from the **3.3V** output pin._
 * Passive buzzer like `KY-006` or `HW-508`
 * _(optional)_ Bluetooth `HC-05` module<br/>
   _NOTE: This module is only required if you intend to use Bluetooth to control the throttle position._

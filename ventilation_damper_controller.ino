@@ -32,14 +32,14 @@ const int RF_RECEIVER_INT_NUMBER = 1;   // 1 means PIN3 for Uno, 0 means PIN3 fo
 // Mega             D2     D3     D21    D20    D19    D18
 
 /// PARAMETERS
-const int ACTIVE_PERIOD_MS = 30 * 1000;           // 30 sec
-const uint8_t ANGLE_STEP = 2;                     // degrees
-const uint8_t ANGLE_STEP_SMALL = 1;               // degrees
-const uint8_t ANGLE_SMALL_STEP_THRESHOLD = 36;    // degrees
-const uint8_t ANGLE_MIN_OPENED = 5;               // degrees (minimum angle that is treated as "opened throttle")
-const int AUTO_DISPLAY_OFF_DELAY_MS = 3 * 1000;   // 3 sec
-const int DISPLAY_ANGLE_DELAY_MS = 4 * 1000;      // 4 sec
-const int RC_ANTI_BOUNCE_DELAY_MS = 250;
+const int ACTIVE_PERIOD_MS = 30 * 1000;               // 30 sec
+const uint8_t ANGLE_STEP = 2;                         // degrees
+const uint8_t ANGLE_STEP_SMALL = 1;                   // degrees
+const uint8_t ANGLE_SMALL_STEP_THRESHOLD = 36;        // degrees
+const uint8_t ANGLE_MIN_OPENED = 5;                   // degrees (minimum angle that is treated as "opened throttle")
+const long AUTO_DISPLAY_OFF_DELAY_MS = 300 * 1000L;   // 5 min
+const long DISPLAY_ANGLE_DELAY_MS = 100L;
+const long RC_ANTI_BOUNCE_DELAY_MS = 250L;
 
 //// GLOBAL CONTEXT
 // real-time clock DS3231
@@ -161,7 +161,7 @@ void loop() {
     state = STATE_IDLE;
     displayAngle();
   } else if (state == STATE_ACTIVE) {
-    int elapsedMs = elapsedMillis(lastChangeMs);
+    long elapsedMs = elapsedMillis(lastChangeMs);
     if (elapsedMs > ACTIVE_PERIOD_MS) {
       deactivate();
     } else if (elapsedMs >= DISPLAY_ANGLE_DELAY_MS && elapsedMs < DISPLAY_ANGLE_DELAY_MS + AUTO_DISPLAY_OFF_DELAY_MS && lastDispOnMs == 0) {
@@ -583,8 +583,8 @@ void storeToEEPROM() {
 
 //// HELPERS
 // difference of milliseconds taking into account overflow of unsigned long
-int elapsedMillis(unsigned long startMs) {
+long elapsedMillis(unsigned long startMs) {
   unsigned long nowMs = millis();
-  if (nowMs >= startMs) return (int)(nowMs - startMs);
-  return (int)(nowMs + (0xFFFFFFFFul - startMs));
+  if (nowMs >= startMs) return (long)(nowMs - startMs);
+  return (long)(nowMs + (0xFFFFFFFFul - startMs));
 }
